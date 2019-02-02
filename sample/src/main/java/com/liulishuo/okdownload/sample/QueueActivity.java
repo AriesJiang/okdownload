@@ -22,6 +22,7 @@ import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -88,9 +89,12 @@ public class QueueActivity extends BaseSampleActivity {
                                 @NonNull EndCause cause,
                                 @android.support.annotation.Nullable Exception realCause,
                                 int remainCount) {
+                Log.d("QueueActivity", "DownloadContextListener taskEnd");
             }
 
             @Override public void queueEnd(@NonNull DownloadContext context) {
+                Log.d("QueueActivity", "DownloadContextListener queueEnd context" + context.getTasks());
+
                 actionView.setTag(null);
                 actionTv.setText(R.string.start);
                 // to cancel

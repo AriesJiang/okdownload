@@ -134,6 +134,7 @@ public class EachBlockProgressActivity extends BaseSampleActivity {
                 .setMinIntervalMillisCallbackProcess(64)
                 // ignore the same task has already completed in the past.
                 .setPassIfAlreadyCompleted(false)
+//                .setConnectionCount(3)
                 .build();
     }
 
@@ -255,6 +256,7 @@ public class EachBlockProgressActivity extends BaseSampleActivity {
 
             @Override public void connectStart(@NonNull DownloadTask task, int blockIndex,
                                                @NonNull Map<String, List<String>> requestHeaders) {
+                Log.d("EachBlockProgress", "connectStart " + blockIndex);
                 final String status = "connectStart " + blockIndex + " " + requestHeaders;
                 statusTv.setText(status);
             }
@@ -262,6 +264,7 @@ public class EachBlockProgressActivity extends BaseSampleActivity {
             @Override
             public void connectEnd(@NonNull DownloadTask task, int blockIndex, int responseCode,
                                    @NonNull Map<String, List<String>> responseHeaders) {
+                Log.d("EachBlockProgress", "connectEnd " + blockIndex + " " + responseCode + " " + responseHeaders);
                 final String status = "connectEnd " + blockIndex + " " + responseCode + " "
                         + responseHeaders;
                 statusTv.setText(status);
@@ -272,6 +275,8 @@ public class EachBlockProgressActivity extends BaseSampleActivity {
             public void progressBlock(@NonNull DownloadTask task, int blockIndex,
                                       long currentBlockOffset,
                                       @NonNull SpeedCalculator blockSpeed) {
+                Log.d("EachBlockProgress", "progressBlock " + blockIndex);
+
                 final ProgressBar progressBar = EachBlockProgressUtil
                         .getProgressBar(blockIndex, block0Pb, block1Pb, block2Pb, block3Pb);
 
@@ -286,6 +291,7 @@ public class EachBlockProgressActivity extends BaseSampleActivity {
 
             @Override public void progress(@NonNull DownloadTask task, long currentOffset,
                                            @NonNull SpeedCalculator taskSpeed) {
+                Log.d("EachBlockProgress", "progress ");
                 statusTv.setText(R.string.fetch_progress);
 
                 EachBlockProgressUtil.updateProgress(taskPb, currentOffset);
@@ -295,6 +301,7 @@ public class EachBlockProgressActivity extends BaseSampleActivity {
             @Override
             public void blockEnd(@NonNull DownloadTask task, int blockIndex, BlockInfo info,
                                  @NonNull SpeedCalculator blockSpeed) {
+                Log.d("EachBlockProgress", "blockEnd blockIndex=" + blockIndex);
                 final TextView speedTv = EachBlockProgressUtil.getSpeedTv(blockIndex,
                         block0SpeedTv, block1SpeedTv, block2SpeedTv, block3SpeedTv);
 
@@ -305,7 +312,8 @@ public class EachBlockProgressActivity extends BaseSampleActivity {
             @Override public void taskEnd(@NonNull DownloadTask task, @NonNull EndCause cause,
                                           @android.support.annotation.Nullable Exception realCause,
                                           @NonNull SpeedCalculator taskSpeed) {
-                statusTv.setText(cause.toString());
+                Log.d("EachBlockProgress", "taskEnd ");
+                statusTv.setText(cause.toString() + " realCause=" + realCause);
                 taskSpeedTv.setText(taskSpeed.averageSpeed());
 
                 actionTv.setText(R.string.start);

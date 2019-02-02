@@ -20,6 +20,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.util.Log;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
 import com.liulishuo.okdownload.core.cause.EndCause;
@@ -45,11 +46,13 @@ public class Listener1Assist implements ListenerAssist,
     }
 
     public void taskStart(DownloadTask task) {
+        Log.d("Listener1Assist", "taskStart task=" + task.getFilename() + "  thread=" + Thread.currentThread().getName());
         final Listener1Model model = modelHandler.addAndGetModel(task, null);
         if (callback != null) callback.taskStart(task, model);
     }
 
     public void taskEnd(DownloadTask task, EndCause cause, @Nullable Exception realCause) {
+        Log.e("Listener1Assist", "taskEnd task=" + task.getFilename() + "  thread=" + Thread.currentThread().getName());
         Listener1Model model = modelHandler.removeOrCreate(task, task.getInfo());
         if (callback != null) callback.taskEnd(task, cause, realCause, model);
     }
@@ -82,6 +85,7 @@ public class Listener1Assist implements ListenerAssist,
 
 
     public void connectEnd(DownloadTask task) {
+        Log.e("Listener1Assist", "connectEnd task=" + task.getFilename() + "  thread=" + Thread.currentThread().getName());
         final Listener1Model model = modelHandler.getOrRecoverModel(task, task.getInfo());
         if (model == null) return;
 
